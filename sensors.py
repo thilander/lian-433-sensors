@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import json
-import request
+import requests
 
 with open("secrets.json") as s:
     secrets = json.load(s)
