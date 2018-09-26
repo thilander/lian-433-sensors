@@ -17,31 +17,26 @@ with open('config.json', 'r') as c:
 # sensor config. The keys are the id from the tellstick config and the value are the data for home assistant.
 sensor_mapping = config["sensor_mapping"]
 
-METHODS = {const.TELLSTICK_TURNON: 'turn on',
-           const.TELLSTICK_TURNOFF: 'turn off',
-           const.TELLSTICK_BELL: 'bell',
-           const.TELLSTICK_TOGGLE: 'toggle',
-           const.TELLSTICK_DIM: 'dim',
-           const.TELLSTICK_LEARN: 'learn',
-           const.TELLSTICK_EXECUTE: 'execute',
-           const.TELLSTICK_UP: 'up',
-           const.TELLSTICK_DOWN: 'down',
-           const.TELLSTICK_STOP: 'stop'}
-
-# lastClick = time.time()
+last_event_time = time.time()
+last_event = ""
 
 def event(id, method, data, cid):
-    method_string = METHODS.get(method, "UNKNOWN METHOD {0}".format(method))
     id_str = str(id)
 
     if id_str in sensor_mapping:
         sensor = sensor_mapping[id_str]
-        # print(sensor)
+        payload = {
+            'state': '', 
+            'attributes': {
+                'friendly_name': sensor['friendly_name'], 
+                'device_class':  sensor['device_class']
+            }
+        }
         if method == const.TELLSTICK_TURNON:
-            print('turn on!')
+            payload['state'] = sensor['state_on']
         elif method == const.TELLSTICK_TURNOFF:
-            print('turn off!')
-
+            payload['state'] = sensor['state_off']
+        print(payload)
 
 try:
     import asyncio
