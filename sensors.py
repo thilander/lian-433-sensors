@@ -32,10 +32,15 @@ METHODS = {const.TELLSTICK_TURNON: 'turn on',
 
 def event(id, method, data, cid):
     method_string = METHODS.get(method, "UNKNOWN METHOD {0}".format(method))
-    print("{0}".format(id))
-    print("{0}".format(method_string))
-    print("{0}".format(data))
-    print("{0}".format(cid))
+    id_str = str(id)
+
+    if id_str in sensor_mapping:
+        sensor = sensor_mapping[id_str]
+        # print(sensor)
+        if method == const.TELLSTICK_TURNON:
+            print('turn on!')
+        elif method == const.TELLSTICK_TURNOFF:
+            print('turn off!')
 
 
 try:
