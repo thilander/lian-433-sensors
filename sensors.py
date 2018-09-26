@@ -5,13 +5,18 @@ import requests
 import time
 import tellcore.telldus as td
 import tellcore.constants as const
+import os
+
+script_path = os.path.abspath(os.path.dirname(__file__))
+secrets_path = os.path.join(script_path, 'secrets.json')
+config_path = os.path.join(script_path, 'config.json')
 
 # Read secrets
-with open('secrets.json', 'r') as s:
+with open(secrets_path, 'r') as s:
     secrets = json.load(s)
 
 # Read config
-with open('config.json', 'r') as c:
+with open(config_path, 'r') as c:
     config = json.load(c)
 
 # sensor config. The keys are the id from the tellstick config 
