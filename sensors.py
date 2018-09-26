@@ -3,10 +3,10 @@
 import json
 import requests
 
-with open("secrets.json") as s:
+with open("secrets.json", "r") as s:
     secrets = json.load(s)
 
-with open("config.json") as c:
+with open("config.json", "r") as c:
     config = json.load(c)
 
 
