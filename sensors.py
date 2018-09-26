@@ -14,7 +14,8 @@ with open('secrets.json', 'r') as s:
 with open('config.json', 'r') as c:
     config = json.load(c)
 
-# sensor config. The keys are the id from the tellstick config and the value are the data for home assistant.
+# sensor config. The keys are the id from the tellstick config 
+# and the value are the data for home assistant.
 sensor_mapping = config["sensor_mapping"]
 
 last_event_time = time.time()
@@ -36,7 +37,18 @@ def event(id, method, data, cid):
             payload['state'] = sensor['state_on']
         elif method == const.TELLSTICK_TURNOFF:
             payload['state'] = sensor['state_off']
-        print(payload)
+            
+        api_url = '{0}/states/binary_sensor.{1}'.format(
+            config['api_base_url'], 
+            sensor['device_name'])
+
+        response = requests.post(
+            api_url,
+            headers={'x-ha-access': secrets['ha_api_password'], 'content-type': 'application/json'},
+            data=json.dumps(payload))
+
+        print(response.text)
+
 
 try:
     import asyncio
@@ -59,21 +71,3 @@ try:
             time.sleep(0.5)
 except KeyboardInterrupt:
     pass
-
-
-# device_name = 'closet_door'
-# friendly_name = 'Closet door'
-# device_class = 'door'
-# state = 'ON'
-
-# api_url = '{0}/states/binary_sensor.{1}'.format(config['api_base_url'], device_name)
-# payload = {'state': state, 'attributes': {
-#     'friendly_name': friendly_name, 
-#     'device_class': device_class}}
-
-# response = requests.post(
-#     api_url,
-#     headers={'x-ha-access': secrets['ha_api_password'], 'content-type': 'application/json'},
-#     data=json.dumps(payload))
-
-# print(response.text)
