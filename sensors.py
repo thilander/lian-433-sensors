@@ -26,7 +26,7 @@ payload = {'state': state, 'attributes': {
 
 response = requests.post(
     api_url,
-    headers={'x-ha-access': s['ha_api_password'], 'content-type': 'application/json'},
+    headers={'x-ha-access': secrets['ha_api_password'], 'content-type': 'application/json'},
     data=json.dumps(payload))
 
 print(response.text)
