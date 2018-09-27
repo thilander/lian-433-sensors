@@ -23,13 +23,17 @@ with open(config_path, 'r') as c:
 sensor_mapping = config["sensor_mapping"]
 
 last_event_time = time.time()
-last_event = ""
+last_event_str = ""
 
 
 def event(id, method, data, cid):
     id_str = str(id)
 
     if id_str in sensor_mapping:
+        global last_event_str
+        global last_event_time
+        time_since_last_event = time.time() - last_event_time
+
         sensor = sensor_mapping[id_str]
         payload = {
             'state': '',
@@ -46,6 +50,12 @@ def event(id, method, data, cid):
         api_url = '{0}/states/binary_sensor.{1}'.format(
             config['api_base_url'],
             sensor['device_name'])
+
+        event_str = '{0}__{1}'.format(sensor['device_name'], payload['state'])
+
+        # rate limit / "debounce".
+        if last_event_str == event_str and last_event_time <= 0.4:
+            return
 
         requests.post(
             api_url,
