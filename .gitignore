@@ -1,2 +1,4 @@
 secrets.json
 config.json
+venv
+.vscode
