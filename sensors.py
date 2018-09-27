@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import json
 import requests
 import time
@@ -19,12 +18,13 @@ with open(secrets_path, 'r') as s:
 with open(config_path, 'r') as c:
     config = json.load(c)
 
-# sensor config. The keys are the id from the tellstick config 
+# sensor config. The keys are the id from the tellstick config
 # and the value are the data for home assistant.
 sensor_mapping = config["sensor_mapping"]
 
 last_event_time = time.time()
 last_event = ""
+
 
 def event(id, method, data, cid):
     id_str = str(id)
@@ -32,9 +32,9 @@ def event(id, method, data, cid):
     if id_str in sensor_mapping:
         sensor = sensor_mapping[id_str]
         payload = {
-            'state': '', 
+            'state': '',
             'attributes': {
-                'friendly_name': sensor['friendly_name'], 
+                'friendly_name': sensor['friendly_name'],
                 'device_class':  sensor['device_class']
             }
         }
@@ -42,14 +42,17 @@ def event(id, method, data, cid):
             payload['state'] = sensor['state_on']
         elif method == const.TELLSTICK_TURNOFF:
             payload['state'] = sensor['state_off']
-            
+
         api_url = '{0}/states/binary_sensor.{1}'.format(
-            config['api_base_url'], 
+            config['api_base_url'],
             sensor['device_name'])
 
-        response = requests.post(
+        requests.post(
             api_url,
-            headers={'x-ha-access': secrets['ha_api_password'], 'content-type': 'application/json'},
+            headers={
+                'x-ha-access': secrets['ha_api_password'],
+                'content-type': 'application/json'
+            },
             data=json.dumps(payload))
 
 
