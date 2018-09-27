@@ -52,8 +52,6 @@ def event(id, method, data, cid):
             headers={'x-ha-access': secrets['ha_api_password'], 'content-type': 'application/json'},
             data=json.dumps(payload))
 
-        print(response.text)
-
 
 try:
     import asyncio
