@@ -18,7 +18,7 @@ http:
 ```
 
 ## Installation
-This assumes you use a raspberry pi (with hassbian).
+This assumes you use a raspberry pi (with raspbian/hassbian).
 You must have python and so on installed, and tellstick core.
 Some help on installing the tellstick core software:
 
@@ -92,7 +92,7 @@ device {
 }
 ```
 
-## Running the script at boot (hassbian)
+## Running the script at boot
 Creds to https://www.raspberrypi-spy.co.uk/2015/02/how-to-autorun-a-python-script-on-raspberry-pi-boot/
 
 ```
