@@ -1,4 +1,4 @@
-# LiAn 433 sensors (tellstick duo)
+# Pass events sent to Tellstick duo to home assistant
 
 This is a simple script for receiving input from devices to a tellstick duo and
 passing it along to home assistant, using home assistants http/rest API.
