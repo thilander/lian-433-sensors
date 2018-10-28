@@ -64,9 +64,8 @@ def event(id, method, data, cid):
                 'content-type': 'application/json'
             },
             data=json.dumps(payload))
-
         # if auto_off, turn it off again...
-        if "auto_off" in config and config["auto_off"] is True:
+        if "auto_off" in sensor and sensor["auto_off"] is True:
             payload['state'] = sensor['state_off']
             requests.post(
                 api_url,
