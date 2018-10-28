@@ -65,6 +65,17 @@ def event(id, method, data, cid):
             },
             data=json.dumps(payload))
 
+        # if auto_off, turn it off again...
+        if "auto_off" in config and config["auto_off"] is True:
+            payload['state'] = sensor['state_off']
+            requests.post(
+                api_url,
+                headers={
+                    'x-ha-access': secrets['ha_api_password'],
+                    'content-type': 'application/json'
+                },
+                data=json.dumps(payload))
+
 
 try:
     import asyncio
